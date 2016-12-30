@@ -19,7 +19,6 @@ import logging
 import time
 import pprint
 
-#from bs4 import BeautifulSoup
 from urllib import urlopen
 import sqlite3
 import xml.etree.ElementTree as ET
@@ -44,3 +43,15 @@ print "Origin: %s" % root.attrib['origin']
 print "Destination: %s" % root.attrib['destination']
 print "MessageType1: %s" % root.attrib['messageType']
 print "MessageType2: %s" % root[0][0].tag.split('}', 1)[-1] # remove the schema location from front
+
+# handle different message types properly-- BxfData action=add/ BxfData/Schedule action=add
+print root[0].attrib
+if root[0].attrib == "{}":
+	action = "" 
+else:
+	action = root[0][0].attrib['action']
+
+print "MessageAction: %s" % action
+
+if action == "add":
+	print "Content Add"
